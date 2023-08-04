@@ -18,7 +18,7 @@ const AppHeader = () => {
     getOrders().then((res) => {
       setNotifications(res.products);
     });
-  });
+  }, []);
 
   return (
     <div className="AppHeader">
@@ -30,13 +30,13 @@ const AppHeader = () => {
         Admin DashBoard
       </Typography.Title>
       <Space>
-        <Badge count={comments.length} dot>
+        <Badge count={comments?.length || 0} dot>
           <MailOutlined
             style={{ fontSize: 24 }}
             onClick={() => setCommentsOpen(true)}
           />
         </Badge>
-        <Badge count={notifications.length}>
+        <Badge count={notifications?.length || 0}>
           <BellFilled
             style={{ fontSize: 24 }}
             onClick={() => setNotificationsOpen(true)}
