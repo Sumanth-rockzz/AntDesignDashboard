@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Space, Card, Statistic, Table } from "antd";
+import { Typography, Space } from "antd";
+import DashboardCard from "./DashboardCard";
+import RecentOrders from "./RecentOrders";
+import DashboardChatBar from "./DashboardChatBar";
 import "../../App.css";
 import {
   ShoppingCartOutlined,
@@ -7,23 +10,31 @@ import {
   UserOutlined,
   DollarCircleOutlined,
 } from "@ant-design/icons";
-import { getOrders } from "../../API/API";
-import DashboardChatBar from "./DashboardChatBar";
+import { getCustomers, getInventory, getOrders } from "../../API/API";
+
 const Dashboard = () => {
-  const DashboardCard = ({ title, value, icon }) => {
-    return (
-      <Card>
-        <Space direction="horizontal">
-          {icon}
-          <Statistic title={title} value={value} />
-        </Space>
-      </Card>
-    );
-  };
+  const [ordersCount, setOrdersCount] = useState(0);
+  const [inventoryCount, setInventoryCount] = useState(0);
+  const [customersCount, setCustomersCount] = useState(0);
+  const [revenueTotal, setRevenueTotal] = useState(0);
+
+  useEffect(() => {
+    getOrders().then((res) => {
+      setOrdersCount(res.total);
+      setRevenueTotal(res.discountedTotal);
+    });
+    getInventory().then((res) => {
+      setInventoryCount(res.total);
+    });
+    getCustomers().then((res) => {
+      setCustomersCount(res.total);
+    });
+  }, []);
+
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Dashboard</Typography.Title>
-      <Space direction="horizontal" className="DashboardCard">
+      <Space direction="horizontal">
         <DashboardCard
           icon={
             <ShoppingCartOutlined
@@ -37,7 +48,7 @@ const Dashboard = () => {
             />
           }
           title="Orders"
-          value={123456}
+          value={ordersCount}
         />
         <DashboardCard
           icon={
@@ -52,7 +63,7 @@ const Dashboard = () => {
             />
           }
           title="Inventory"
-          value={123456}
+          value={inventoryCount}
         />
         <DashboardCard
           icon={
@@ -67,7 +78,7 @@ const Dashboard = () => {
             />
           }
           title="Customers"
-          value={123456}
+          value={customersCount}
         />
         <DashboardCard
           icon={
@@ -82,7 +93,7 @@ const Dashboard = () => {
             />
           }
           title="Revenue"
-          value={123456}
+          value={revenueTotal}
         />
       </Space>
       <Space>
@@ -90,43 +101,6 @@ const Dashboard = () => {
         <DashboardChatBar />
       </Space>
     </Space>
-  );
-};
-
-const RecentOrders = () => {
-  const [dataSource, setDataSource] = useState([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    getOrders().then((res) => {
-      setDataSource(res.products.splice(0, 3));
-      setLoading(false);
-    });
-  }, []);
-
-  return (
-    <>
-      <Typography.Text>Recent Orders</Typography.Text>
-      <Table
-        columns={[
-          {
-            title: "Title",
-            dataIndex: "title",
-          },
-          {
-            title: "Quantity",
-            dataIndex: "quantity",
-          },
-          {
-            title: "Price",
-            dataIndex: "discountedPrice",
-          },
-        ]}
-        loading={loading}
-        dataSource={dataSource}
-        pagination={false}
-      ></Table>
-    </>
   );
 };
 

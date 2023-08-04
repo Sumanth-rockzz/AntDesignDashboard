@@ -34,7 +34,6 @@ const DashboardChatBar = () => {
       const data = res.carts.map((cart) => {
         return cart.discountedTotal;
       });
-      console.log(data, labels);
       const dataSource = {
         labels,
         datasets: [
@@ -46,7 +45,6 @@ const DashboardChatBar = () => {
         ],
       };
       setRevenueData(dataSource);
-      console.log(revenueData);
     });
   }, []);
 

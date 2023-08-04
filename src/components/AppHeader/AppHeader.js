@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css";
-import { Image, Space, Typography, Badge } from "antd";
+import { Image, Space, Typography, Badge, Drawer, List } from "antd";
 import { BellFilled, MailOutlined } from "@ant-design/icons";
+import { getComments, getOrders } from "../../API/API";
 
 const AppHeader = () => {
+  const [comments, setComments] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+
+  const [commentsOpen, setCommentsOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  useEffect(() => {
+    getComments().then((res) => {
+      setComments(res.comments);
+    });
+    getOrders().then((res) => {
+      setNotifications(res.products);
+    });
+  });
+
   return (
     <div className="AppHeader">
       <Image
@@ -14,13 +30,38 @@ const AppHeader = () => {
         Admin DashBoard
       </Typography.Title>
       <Space>
-        <Badge count={20} dot>
-          <MailOutlined style={{ fontSize: 24 }} />
+        <Badge count={comments.length} dot>
+          <MailOutlined
+            style={{ fontSize: 24 }}
+            onClick={() => setCommentsOpen(true)}
+          />
         </Badge>
-        <Badge count={20}>
-          <BellFilled style={{ fontSize: 24 }} />
+        <Badge count={notifications.length}>
+          <BellFilled
+            style={{ fontSize: 24 }}
+            onClick={() => setNotificationsOpen(true)}
+          />
         </Badge>
       </Space>
+      <Drawer
+        title="Comments"
+        open={commentsOpen}
+        onClose={() => setCommentsOpen(false)}
+        maskClosable
+      >
+        <List
+          dataSource={comments}
+          renderItem={(item) => {
+            return <List.Item>{item.body}</List.Item>;
+          }}
+        ></List>
+      </Drawer>
+      <Drawer
+        title="Notifications"
+        open={notificationsOpen}
+        onClose={() => setNotificationsOpen(false)}
+        maskClosable
+      ></Drawer>
     </div>
   );
 };
