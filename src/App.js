@@ -7,8 +7,12 @@ function App() {
     <div className="App">
       <AppHeader />
       <div className="SideMenuAndPageContent">
-        <SideMenu />
-        <PageContent />
+        <div className="SideMenuContainer">
+          <SideMenu />
+        </div>
+        <div className="PageContentContainer">
+          <PageContent />
+        </div>
       </div>
       <AppFooter />
     </div>

@@ -20,10 +20,11 @@ const SideMenu = () => {
 
   const navigate = useNavigate();
   return (
-    <div className="SideMenu">
+    <div className="SideMenu" style={{ display: "flex" }}>
       <Menu
-        className="SideMenuVertical"
-        mode="vertical"
+        style={{ minWidth: 0, flex: "auto" }}
+        className="SideMenu"
+        mode="inline"
         onClick={(item) => {
           //item.key
           navigate(item.key);
@@ -32,22 +33,22 @@ const SideMenu = () => {
         items={[
           {
             label: "DashBoard",
-            icon: <AppstoreOutlined />,
+            icon: <AppstoreOutlined style={{ fontSize: "1rem" }} />,
             key: "/",
           },
           {
             label: "Inventory",
-            icon: <ShopOutlined />,
+            icon: <ShopOutlined style={{ fontSize: "1rem" }} />,
             key: "/inventory",
           },
           {
             label: "Orders",
-            icon: <ShoppingCartOutlined />,
+            icon: <ShoppingCartOutlined style={{ fontSize: "1rem" }} />,
             key: "/orders",
           },
           {
             label: "Customers",
-            icon: <UserOutlined />,
+            icon: <UserOutlined style={{ fontSize: "1rem" }} />,
             key: "/customers",
           },
         ]}

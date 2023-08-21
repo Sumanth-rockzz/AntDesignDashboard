@@ -54,7 +54,11 @@ const Customers = () => {
             },
           },
         ]}
-        dataSource={dataSource}
+        className="table-styling"
+        dataSource={dataSource.map((item) => {
+          item.key = item.id;
+          return item;
+        })}
         loading={loading}
         pagination={{
           pageSize: 5,

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getOrders } from "../../API/API";
-import { Typography, Table } from "antd";
+import { Table } from "antd";
 
 const RecentOrders = () => {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     getOrders().then((res) => {
@@ -13,29 +14,32 @@ const RecentOrders = () => {
     });
   }, []);
 
+  const columns = [
+    {
+      title: "Title",
+      dataIndex: "title",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+    },
+    {
+      title: "Price",
+      dataIndex: "discountedPrice",
+    },
+  ];
+
   return (
-    <>
-      <Typography.Text>Recent Orders</Typography.Text>
-      <Table
-        columns={[
-          {
-            title: "Title",
-            dataIndex: "title",
-          },
-          {
-            title: "Quantity",
-            dataIndex: "quantity",
-          },
-          {
-            title: "Price",
-            dataIndex: "discountedPrice",
-          },
-        ]}
-        loading={loading}
-        dataSource={dataSource}
-        pagination={false}
-      ></Table>
-    </>
+    <Table
+      columns={columns}
+      className="table-styling"
+      loading={loading}
+      dataSource={dataSource.map((item) => {
+        item.key = item.id;
+        return item;
+      })}
+      pagination={false}
+    />
   );
 };
 

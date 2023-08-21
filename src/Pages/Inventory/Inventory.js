@@ -13,6 +13,7 @@ const Inventory = () => {
       setLoading(false);
     });
   }, []);
+
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Inventory</Typography.Title>
@@ -52,7 +53,11 @@ const Inventory = () => {
             },
           },
         ]}
-        dataSource={dataSource}
+        dataSource={dataSource.map((item) => {
+          item.key = item.id;
+          return item;
+        })}
+        className="table-styling"
         loading={loading}
         pagination={{
           pageSize: 5,

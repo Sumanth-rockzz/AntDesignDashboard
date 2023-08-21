@@ -11,13 +11,13 @@ const Orders = () => {
     getOrders().then((res) => {
       setDataSource(res.products);
       setLoading(false);
-      console.log(dataSource);
     });
   }, []);
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Orders</Typography.Title>
       <Table
+        className="table-styling"
         columns={[
           {
             title: "Title",
@@ -43,7 +43,10 @@ const Orders = () => {
             render: (value) => <span>₹ {value}</span>,
           },
         ]}
-        dataSource={dataSource}
+        dataSource={dataSource.map((item) => {
+          item.key = item.id;
+          return item;
+        })}
         loading={loading}
         pagination={{
           pageSize: 5,

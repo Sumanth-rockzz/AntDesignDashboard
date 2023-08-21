@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Space } from "antd";
+import { Typography } from "antd";
 import DashboardCard from "./DashboardCard";
 import RecentOrders from "./RecentOrders";
 import DashboardChatBar from "./DashboardChatBar";
@@ -32,9 +32,9 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Space size={20} direction="vertical">
+    <div className="dashboard-container">
       <Typography.Title level={4}>Dashboard</Typography.Title>
-      <Space direction="horizontal">
+      <div className="dashboard-card-container">
         <DashboardCard
           icon={
             <ShoppingCartOutlined
@@ -95,12 +95,15 @@ const Dashboard = () => {
           title="Revenue"
           value={revenueTotal}
         />
-      </Space>
-      <Space>
+      </div>
+      <Typography.Title level={4}>
+        Recent Orders And Sales Chart
+      </Typography.Title>
+      <div className="dashboard-components-container">
         <RecentOrders />
         <DashboardChatBar />
-      </Space>
-    </Space>
+      </div>
+    </div>
   );
 };
 
